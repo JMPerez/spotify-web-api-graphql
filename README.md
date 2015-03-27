@@ -94,6 +94,7 @@ Fetching the data involves a request to the endpoints [Get an Artist](https://de
     }
   ]
 }
+```
 
 ### Demo
 

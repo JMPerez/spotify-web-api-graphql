@@ -1,0 +1,9 @@
+artist(0OdUWJ0sBjDrqHygGUXeCF) {
+  name,
+  followers { total },
+  toptracks.first(5) { 
+    id,
+    name,
+    popularity
+  }
+}

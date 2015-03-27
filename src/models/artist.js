@@ -3,24 +3,29 @@ var Executor = require('../executor');
 module.exports = function(apiWrapper) {
 
   var my_properties = [
-    'artists',
-    'available_markets',
-    'disc_number',
-    'duration_ms',
-    'explicit',
     'external_urls',
+    'id',
+    'followers',
+    'genres',
     'href',
     'id',
-    'is_playable',
-    'linked_from',
+    'images',
     'name',
-    'preview_url',
-    'track_number',
+    'popularity',
     'type',
-    'uri'
+    'uri',
+    'toptracks'
   ];
 
-  var edges = {};
+  var edges = {
+    'toptracks': function(context) {
+      return apiWrapper.getArtistTopTracks(context.artistId, 'SE')
+        .then(function(toptracks) {
+         // console.log(toptracks.body);
+          return toptracks.body.tracks;
+        });
+    }
+  };
 
   function isCompatible(schema) {
     var compatible = true,
@@ -35,9 +40,9 @@ module.exports = function(apiWrapper) {
   }
 
   function execute(schema, callback) {
-    var trackId = schema.parameters;
-    return apiWrapper.getTrack(trackId).then(function(track) {
-      var executor = new Executor(track.body, schema.properties, edges, {trackId: trackId});
+    var artistId = schema.parameters;
+    return apiWrapper.getArtist(artistId).then(function(artist) {
+      var executor = new Executor(artist.body, schema.properties, edges, {artistId: artistId});
       return executor.execute();
     }).catch(function(e) {console.error(e);});
   }

@@ -1,8 +1,28 @@
-var utils = require('../utils');
+var Executor = require('../executor');
 
 module.exports = function(apiWrapper) {
 
-  var my_properties = ['id', 'name', 'artists', 'tracks'];
+  var my_properties = [
+    'album_type',
+    'artists',
+    'available_markets',
+    'copyrights',
+    'external_ids',
+    'external_urls',
+    'genres',
+    'href',
+    'id',
+    'images',
+    'name',
+    'popularity',
+    'release_date',
+    'release_date_precision',
+    'tracks',
+    'type',
+    'uri'
+  ];
+
+  var edges = {};
 
   function isCompatible(schema) {
     var compatible = true,
@@ -18,9 +38,9 @@ module.exports = function(apiWrapper) {
 
   function execute(schema, callback) {
     var albumId = schema.parameters;
-    apiWrapper.getAlbum(albumId).then(function(album) {
-      var result = utils.filter(album.body, schema.properties);
-      callback(result);
+    return apiWrapper.getAlbum(albumId).then(function(track) {
+      var executor = new Executor(track.body, schema.properties, edges, {albumId: albumId});
+      return executor.execute();
     }).catch(function(e) {console.error(e);});
   }
 

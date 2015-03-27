@@ -1,0 +1,8 @@
+album(5CHfJNBnVafJEyYNiavoUi) {
+  artists.first(1) {
+    id,
+    name
+  },
+  name,
+  tracks.first(1) { id }
+}

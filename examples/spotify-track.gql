@@ -1,0 +1,8 @@
+track(4oqoEYKWtIcH2ajYm2qQZt) {
+  name,
+  artists.first(1) {
+    id,
+    name
+  },
+  preview_url
+}
